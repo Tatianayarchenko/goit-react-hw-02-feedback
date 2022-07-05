@@ -6,24 +6,24 @@ import { Section } from 'components/Section';
 import { Container } from 'components/Feedback/FeedbackOptions.styled';
 
 export class App extends Component {
-  static propTypes = {
-    Statistics: {
-      good: PropTypes.number.isRequired,
-      neutral: PropTypes.number.isRequired,
-      bad: PropTypes.number.isRequired,
-      total: PropTypes.number.isRequired,
-      positivePercentage: PropTypes.number.isRequired,
-    },
-    Section: {
-      title: PropTypes.string.isRequired,
-      children: PropTypes.node.isRequired,
-    },
-    Notification: { message: PropTypes.string.isRequired },
-    FeedbackOptions: {
-      options: PropTypes.objectOf(PropTypes.string).isRequired,
-      onLeaveFeedback: PropTypes.object.isRequired,
-    },
-  };
+  // static propTypes = {
+  //   // Statistics: {
+  //   //   good: PropTypes.number.isRequired,
+  //   //   neutral: PropTypes.number.isRequired,
+  //   //   bad: PropTypes.number.isRequired,
+  //   //   total: PropTypes.number.isRequired,
+  //   //   positivePercentage: PropTypes.number.isRequired,
+  //   // },
+  //   // Section: {
+  //   //   title: PropTypes.string.isRequired,
+  //   //   children: PropTypes.node.isRequired,
+  //   // },
+  //   // Notification: { message: PropTypes.string.isRequired },
+  //   // FeedbackOptions: {
+  //   //   options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  //   //   onLeaveFeedback: PropTypes.func.isRequired,
+  //   // },
+  // };
 
   state = {
     good: 0,
@@ -31,30 +31,16 @@ export class App extends Component {
     bad: 0,
   };
 
-  hendleGood = () => {
-    this.setState(prevState => ({
-      good: prevState.good + 1,
-    }));
-    console.log('клик по good');
-  };
-
-  hendleNeutral = () => {
-    this.setState(prevState => ({
-      neutral: prevState.neutral + 1,
-    }));
-    console.log('клик по neutral');
-  };
-
-  hendleBad = () => {
-    this.setState(prevState => ({
-      bad: prevState.bad + 1,
-    }));
-    console.log('клик по bad');
+  hendleButton = option => {
+    this.setState(prevState => {
+      return { [option]: prevState[option] + 1 };
+    });
   };
 
   countTotalFeedback = () => {
-    let total = 0;
-    total = this.state.good + this.state.neutral + this.state.bad;
+    let total = Object.values(this.state).reduce((acc, feedback) => {
+      return acc + feedback;
+    }, 0);
     return total;
   };
 
@@ -67,20 +53,13 @@ export class App extends Component {
   };
 
   render() {
+    const options = Object.keys(this.state);
     return (
       <Container>
         <Section title="Please leave feedback">
           <FeedbackOptions
-            options={{
-              good: 'Good',
-              neutral: 'Neutral',
-              bad: 'Bad',
-            }}
-            onLeaveFeedback={{
-              hendleGood: this.hendleGood,
-              hendleNeutral: this.hendleNeutral,
-              hendleBad: this.hendleBad,
-            }}
+            options={options}
+            onLeaveFeedback={this.hendleButton}
           ></FeedbackOptions>
         </Section>
         <Section title="Statistics">
