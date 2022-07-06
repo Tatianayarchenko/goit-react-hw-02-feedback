@@ -1,37 +1,17 @@
 import { Component } from 'react';
-import PropTypes from 'prop-types';
 import { FeedbackOptions } from 'components/Feedback';
 import { Statistics } from 'components/Statistics';
 import { Section } from 'components/Section';
 import { Container } from 'components/Feedback/FeedbackOptions.styled';
 
 export class App extends Component {
-  // static propTypes = {
-  //   // Statistics: {
-  //   //   good: PropTypes.number.isRequired,
-  //   //   neutral: PropTypes.number.isRequired,
-  //   //   bad: PropTypes.number.isRequired,
-  //   //   total: PropTypes.number.isRequired,
-  //   //   positivePercentage: PropTypes.number.isRequired,
-  //   // },
-  //   // Section: {
-  //   //   title: PropTypes.string.isRequired,
-  //   //   children: PropTypes.node.isRequired,
-  //   // },
-  //   // Notification: { message: PropTypes.string.isRequired },
-  //   // FeedbackOptions: {
-  //   //   options: PropTypes.arrayOf(PropTypes.string).isRequired,
-  //   //   onLeaveFeedback: PropTypes.func.isRequired,
-  //   // },
-  // };
-
   state = {
     good: 0,
     neutral: 0,
     bad: 0,
   };
 
-  hendleButton = option => {
+  handleOnLeaveFeedback = option => {
     this.setState(prevState => {
       return { [option]: prevState[option] + 1 };
     });
@@ -59,7 +39,7 @@ export class App extends Component {
         <Section title="Please leave feedback">
           <FeedbackOptions
             options={options}
-            onLeaveFeedback={this.hendleButton}
+            onLeaveFeedback={this.handleOnLeaveFeedback}
           ></FeedbackOptions>
         </Section>
         <Section title="Statistics">
