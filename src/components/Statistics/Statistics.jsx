@@ -20,7 +20,8 @@ export const Statistics = ({
         <li>Positive feedback: {positivePercentage}%</li>
       </StatisticList>
     ) : (
-      <Notification message="There is no feedback" />
+      // <Notification message="There is no feedback" />
+      <Notification>children</Notification>
     )}
   </div>
 );
